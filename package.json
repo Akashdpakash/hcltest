@@ -1,10 +1,11 @@
 {
   "name": "hcltest",
   "version": "1.0.0",
-  "description": "",
-  "main": "api/index.js",
+  "description": "Azure Function App",
+  "main": "index.js",
   "scripts": {
-  "test": "echo \"No tests available\" && exit 0"
+    "start": "func start",
+    "test": "echo \"No tests available\" && exit 0"
   },
   "repository": {
     "type": "git",
@@ -19,8 +20,10 @@
   "homepage": "https://github.com/Akashdpakash/hcltest#readme",
   "dependencies": {
     "@azure/functions": "^4.6.1",
-    "dotenv": "^16.4.7",
     "express": "^4.21.2",
     "jsonwebtoken": "^9.0.2"
+  },
+  "engines": {
+    "node": ">=16"
   }
 }
