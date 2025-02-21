@@ -1,0 +1,26 @@
+{
+  "name": "hcltest",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Akashdpakash/hcltest.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Akashdpakash/hcltest/issues"
+  },
+  "homepage": "https://github.com/Akashdpakash/hcltest#readme",
+  "dependencies": {
+    "azure-function-express": "^2.0.0",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "jsonwebtoken": "^9.0.2"
+  }
+}
