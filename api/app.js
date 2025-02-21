@@ -1,45 +1,39 @@
-// app.js
-const express = require('express');
-const jwt = require('jsonwebtoken');
-const { createHandler } = require('azure-function-express');
+require("dotenv").config();
+const express = require("express");
+const jwt = require("jsonwebtoken");
 
 const app = express();
-const PORT = process.env.PORT || 3000;
-const SECRET_KEY = process.env.JWT_SECRET || 'your-secret-key';
+app.use(express.json());
 
-// Middleware to check JWT
-authenticateJWT = (req, res, next) => {
-    const token = req.header('Authorization');
-    if (!token) return res.status(401).json({ message: 'Access Denied' });
-    
-    jwt.verify(token.replace('Bearer ', ''), SECRET_KEY, (err, user) => {
-        if (err) return res.status(403).json({ message: 'Invalid Token' });
-        req.user = user;
-        next();
-    });
-};
+const SECRET_KEY = process.env.JWT_SECRET || "your_secret_key";
 
 // Public Route
-app.get('/hello', (req, res) => {
-    res.json({ message: 'Hello, World!' });
+app.get("/hello", (req, res) => {
+  res.json({ message: "Hello, World!" });
 });
+
+// Login Route (Generate JWT Token)
+app.post("/login", (req, res) => {
+  const user = { id: 1, username: "testuser" }; // Dummy user
+  const token = jwt.sign(user, SECRET_KEY, { expiresIn: "1h" });
+  res.json({ token });
+});
+
+// Middleware to verify JWT
+function verifyToken(req, res, next) {
+  const token = req.headers["authorization"];
+  if (!token) return res.status(403).json({ error: "Token required" });
+
+  jwt.verify(token.split(" ")[1], SECRET_KEY, (err, decoded) => {
+    if (err) return res.status(401).json({ error: "Invalid token" });
+    req.user = decoded;
+    next();
+  });
+}
 
 // Protected Route
-app.get('/protected', authenticateJWT, (req, res) => {
-    res.json({ message: 'You have accessed a protected route!', user: req.user });
+app.get("/protected", verifyToken, (req, res) => {
+  res.json({ message: "Access granted", user: req.user });
 });
 
-// Generate JWT Token
-app.post('/login', (req, res) => {
-    const user = { id: 1, name: 'TestUser' };
-    const token = jwt.sign(user, SECRET_KEY, { expiresIn: '1h' });
-    res.json({ token });
-});
-
-// Export for Azure Function App
-module.exports = createHandler(app);
-
-// Local server for testing
-if (require.main === module) {
-    app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
-}
+module.exports = app;
