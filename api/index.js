@@ -1,4 +1,10 @@
-const createHandler = require("azure-function-express").createHandler;
-const app = require("./app");
+const { app } = require("@azure/functions");
 
-module.exports = createHandler(app);
+app.http("helloWorldFunction", {
+  route: "/api/hello",
+  methods: ["GET"],
+  authLevel: "anonymous",
+  handler: async (req, context) => {
+    return { body: "Hello, World!" };
+  }
+});

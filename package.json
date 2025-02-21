@@ -18,7 +18,7 @@
   },
   "homepage": "https://github.com/Akashdpakash/hcltest#readme",
   "dependencies": {
-    "azure-function-express": "^2.0.0",
+    "@azure/functions": "^4.6.1",
     "dotenv": "^16.4.7",
     "express": "^4.21.2",
     "jsonwebtoken": "^9.0.2"
