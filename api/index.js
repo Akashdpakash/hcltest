@@ -1,7 +1,7 @@
-const { app } = require("@azure/functions");
+import { app } from "@azure/functions";
 
 app.http("helloWorldFunction", {
-  route: "/api/hello",
+  route: "hello",  // Removed extra "/api"
   methods: ["GET"],
   authLevel: "anonymous",
   handler: async (req, context) => {
